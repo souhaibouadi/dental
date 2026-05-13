@@ -1,0 +1,224 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_dental_patient_tree" model="ir.ui.view">
+        <field name="name">dental.patient.tree</field>
+        <field name="model">dental.patient</field>
+        <field name="arch" type="xml">
+            <tree string="Patients">
+                <field name="code"/>
+                <field name="name"/>
+                <field name="gender"/>
+                <field name="age"/>
+                <field name="phone"/>
+                <field name="mobile"/>
+                <field name="email"/>
+                <field name="appointment_count"/>
+                <field name="treatment_plan_count"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="view_dental_patient_form" model="ir.ui.view">
+        <field name="name">dental.patient.form</field>
+        <field name="model">dental.patient</field>
+        <field name="arch" type="xml">
+            <form string="Patient">
+                <sheet>
+                    <field name="image_1920" widget="image" class="oe_avatar"/>
+                    <div class="oe_button_box" name="button_box">
+                        <button name="action_open_appointments" type="object"
+                                class="oe_stat_button" icon="fa-calendar">
+                            <field name="appointment_count" widget="statinfo" string="Appointments"/>
+                        </button>
+                        <button name="action_open_treatment_plans" type="object"
+                                class="oe_stat_button" icon="fa-stethoscope">
+                            <field name="treatment_plan_count" widget="statinfo" string="Plans"/>
+                        </button>
+                        <button name="action_open_prescriptions" type="object"
+                                class="oe_stat_button" icon="fa-medkit">
+                            <field name="prescription_count" widget="statinfo" string="Rx"/>
+                        </button>
+                        <button name="action_open_invoices" type="object"
+                                class="oe_stat_button" icon="fa-money">
+                            <field name="invoice_count" widget="statinfo" string="Invoices"/>
+                        </button>
+                    </div>
+                    <div class="oe_title">
+                        <label for="name"/>
+                        <h1><field name="name" placeholder="Patient name..."/></h1>
+                        <h3><field name="code"/></h3>
+                    </div>
+                    <group>
+                        <group string="Identity">
+                            <field name="partner_id" options="{'no_create_edit': False}"/>
+                            <field name="gender"/>
+                            <field name="birth_date"/>
+                            <field name="age"/>
+                            <field name="national_id"/>
+                            <field name="blood_type"/>
+                            <field name="marital_status"/>
+                            <field name="occupation"/>
+                        </group>
+                        <group string="Contact">
+                            <field name="phone"/>
+                            <field name="mobile"/>
+                            <field name="email"/>
+                            <field name="street"/>
+                            <field name="city"/>
+                            <field name="zip"/>
+                            <field name="country_id"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="Medical Info">
+                            <group>
+                                <group>
+                                    <field name="smoker"/>
+                                    <field name="pregnant"/>
+                                </group>
+                                <group/>
+                            </group>
+                            <separator string="Allergies"/>
+                            <field name="allergies" placeholder="Penicillin, latex, anesthetics..."/>
+                            <separator string="Chronic Diseases"/>
+                            <field name="chronic_diseases"/>
+                            <separator string="Current Medications"/>
+                            <field name="current_medications"/>
+                            <separator string="Medical History"/>
+                            <field name="medical_history_ids">
+                                <tree editable="bottom">
+                                    <field name="date"/>
+                                    <field name="kind"/>
+                                    <field name="title"/>
+                                    <field name="description"/>
+                                    <field name="practitioner_id"/>
+                                </tree>
+                            </field>
+                        </page>
+                        <page string="Odontogram">
+                            <field name="tooth_ids">
+                                <tree editable="bottom" decoration-success="condition=='healthy'"
+                                      decoration-warning="condition in ('caries','to_extract')"
+                                      decoration-danger="condition in ('extracted','missing')">
+                                    <field name="tooth_number"/>
+                                    <field name="name"/>
+                                    <field name="quadrant"/>
+                                    <field name="condition"/>
+                                    <field name="surface"/>
+                                    <field name="last_treatment_date"/>
+                                    <field name="notes"/>
+                                </tree>
+                            </field>
+                        </page>
+                        <page string="Appointments">
+                            <field name="appointment_ids" readonly="1">
+                                <tree>
+                                    <field name="name"/>
+                                    <field name="start"/>
+                                    <field name="stop"/>
+                                    <field name="practitioner_id"/>
+                                    <field name="state"/>
+                                </tree>
+                            </field>
+                        </page>
+                        <page string="Treatment Plans">
+                            <field name="treatment_plan_ids" readonly="1">
+                                <tree>
+                                    <field name="name"/>
+                                    <field name="date"/>
+                                    <field name="practitioner_id"/>
+                                    <field name="total_amount"/>
+                                    <field name="state"/>
+                                </tree>
+                            </field>
+                        </page>
+                        <page string="Prescriptions">
+                            <field name="prescription_ids" readonly="1">
+                                <tree>
+                                    <field name="name"/>
+                                    <field name="date"/>
+                                    <field name="practitioner_id"/>
+                                    <field name="state"/>
+                                </tree>
+                            </field>
+                        </page>
+                        <page string="Emergency Contact">
+                            <group>
+                                <field name="emergency_name"/>
+                                <field name="emergency_phone"/>
+                                <field name="emergency_relation"/>
+                            </group>
+                        </page>
+                        <page string="Internal Notes">
+                            <field name="notes"/>
+                        </page>
+                    </notebook>
+                </sheet>
+                <div class="oe_chatter">
+                    <field name="message_follower_ids"/>
+                    <field name="activity_ids"/>
+                    <field name="message_ids"/>
+                </div>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_dental_patient_kanban" model="ir.ui.view">
+        <field name="name">dental.patient.kanban</field>
+        <field name="model">dental.patient</field>
+        <field name="arch" type="xml">
+            <kanban class="o_kanban_mobile">
+                <field name="name"/>
+                <field name="code"/>
+                <field name="phone"/>
+                <field name="age"/>
+                <templates>
+                    <t t-name="kanban-box">
+                        <div class="oe_kanban_card oe_kanban_global_click">
+                            <div class="o_kanban_image">
+                                <img t-att-src="kanban_image('dental.patient','image_128',record.id.raw_value)"
+                                     class="o_image_64_cover" alt="Patient"/>
+                            </div>
+                            <div class="oe_kanban_details">
+                                <strong><field name="name"/></strong>
+                                <div><field name="code"/></div>
+                                <div>Age: <field name="age"/></div>
+                                <div><field name="phone"/></div>
+                            </div>
+                        </div>
+                    </t>
+                </templates>
+            </kanban>
+        </field>
+    </record>
+
+    <record id="view_dental_patient_search" model="ir.ui.view">
+        <field name="name">dental.patient.search</field>
+        <field name="model">dental.patient</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="name"/>
+                <field name="code"/>
+                <field name="phone"/>
+                <field name="mobile"/>
+                <field name="national_id"/>
+                <filter name="male" string="Male" domain="[('gender','=','male')]"/>
+                <filter name="female" string="Female" domain="[('gender','=','female')]"/>
+                <filter name="smoker" string="Smokers" domain="[('smoker','=',True)]"/>
+                <group expand="0" string="Group By">
+                    <filter name="group_gender" string="Gender" context="{'group_by':'gender'}"/>
+                    <filter name="group_blood" string="Blood Type" context="{'group_by':'blood_type'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <record id="action_dental_patient" model="ir.actions.act_window">
+        <field name="name">Patients</field>
+        <field name="res_model">dental.patient</field>
+        <field name="view_mode">kanban,tree,form</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">Create your first patient!</p>
+        </field>
+    </record>
+</odoo>
