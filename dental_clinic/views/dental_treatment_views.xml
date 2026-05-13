@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_dental_treatment_tree" model="ir.ui.view">
+        <field name="name">dental.treatment.tree</field>
+        <field name="model">dental.treatment</field>
+        <field name="arch" type="xml">
+            <tree string="Treatments">
+                <field name="code"/>
+                <field name="name"/>
+                <field name="category"/>
+                <field name="duration" widget="float_time"/>
+                <field name="price"/>
+                <field name="requires_tooth"/>
+                <field name="active"/>
+            </tree>
+        </field>
+    </record>
+    <record id="view_dental_treatment_form" model="ir.ui.view">
+        <field name="name">dental.treatment.form</field>
+        <field name="model">dental.treatment</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <div class="oe_title">
+                        <label for="name"/><h1><field name="name"/></h1>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="code"/>
+                            <field name="category"/>
+                            <field name="duration" widget="float_time"/>
+                            <field name="requires_tooth"/>
+                        </group>
+                        <group>
+                            <field name="price"/>
+                            <field name="product_id"/>
+                            <field name="color" widget="color_picker"/>
+                            <field name="active"/>
+                        </group>
+                    </group>
+                    <field name="description"/>
+                </sheet>
+            </form>
+        </field>
+    </record>
+    <record id="view_dental_treatment_search" model="ir.ui.view">
+        <field name="name">dental.treatment.search</field>
+        <field name="model">dental.treatment</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="name"/>
+                <field name="code"/>
+                <filter name="active" string="Active" domain="[('active','=',True)]"/>
+                <group expand="0" string="Group By">
+                    <filter name="group_cat" string="Category" context="{'group_by':'category'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+    <record id="action_dental_treatment" model="ir.actions.act_window">
+        <field name="name">Treatments</field>
+        <field name="res_model">dental.treatment</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+</odoo>
