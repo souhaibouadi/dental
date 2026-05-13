@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <template id="report_dental_treatment_plan">
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="o">
+                <t t-call="web.external_layout">
+                    <div class="page">
+                        <h2>Treatment Plan <span t-field="o.name"/></h2>
+                        <div class="row mt16">
+                            <div class="col-6">
+                                <strong>Patient:</strong> <span t-field="o.patient_id.name"/><br/>
+                                <strong>Code:</strong> <span t-field="o.patient_id.code"/>
+                            </div>
+                            <div class="col-6">
+                                <strong>Practitioner:</strong> Dr. <span t-field="o.practitioner_id.name"/><br/>
+                                <strong>Date:</strong> <span t-field="o.date"/>
+                            </div>
+                        </div>
+                        <table class="table table-sm mt16">
+                            <thead>
+                                <tr>
+                                    <th>Treatment</th><th>Tooth</th><th>Qty</th>
+                                    <th>Unit Price</th><th>Disc.</th><th class="text-end">Subtotal</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr t-foreach="o.line_ids" t-as="l">
+                                    <td><span t-field="l.treatment_id.name"/></td>
+                                    <td><span t-field="l.tooth_id.tooth_number"/></td>
+                                    <td><span t-field="l.quantity"/></td>
+                                    <td><span t-field="l.price_unit"/></td>
+                                    <td><span t-field="l.discount"/></td>
+                                    <td class="text-end"><span t-field="l.subtotal"/></td>
+                                </tr>
+                            </tbody>
+                            <tfoot>
+                                <tr>
+                                    <th colspan="5" class="text-end">Total:</th>
+                                    <th class="text-end"><span t-field="o.total_amount"/></th>
+                                </tr>
+                            </tfoot>
+                        </table>
+                        <div t-if="o.notes" class="mt16">
+                            <strong>Notes:</strong>
+                            <div t-field="o.notes"/>
+                        </div>
+                    </div>
+                </t>
+            </t>
+        </t>
+    </template>
+</odoo>
