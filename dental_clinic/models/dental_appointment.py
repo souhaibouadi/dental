@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 from datetime import timedelta
 from odoo import api, fields, models, _
-from odoo.exceptions import UserError, ValidationError
+from odoo.exceptions import ValidationError
 
 
 class DentalAppointment(models.Model):
@@ -20,7 +20,9 @@ class DentalAppointment(models.Model):
                               domain="[('patient_id', '=', patient_id)]")
 
     start = fields.Datetime(required=True, default=fields.Datetime.now, tracking=True)
-    stop = fields.Datetime(required=True, default=lambda s: fields.Datetime.now() + timedelta(minutes=30), tracking=True)
+    stop = fields.Datetime(required=True,
+                           default=lambda s: fields.Datetime.now() + timedelta(minutes=30),
+                           tracking=True)
     duration = fields.Float(compute='_compute_duration', inverse='_inverse_duration', store=True)
     allday = fields.Boolean()
 
@@ -44,7 +46,7 @@ class DentalAppointment(models.Model):
         ('check_dates', 'CHECK(stop >= start)', 'End must be after start.'),
     ]
 
-    def _expand_states(self, states, domain, order):
+    def _expand_states(self, states, domain):
         return [k for k, _v in self._fields['state'].selection]
 
     @api.depends('start', 'stop')
@@ -74,8 +76,8 @@ class DentalAppointment(models.Model):
             ], limit=1)
             if overlap:
                 raise ValidationError(
-                    _('Practitioner %s already has an appointment in this time slot (%s).')
-                    % (rec.practitioner_id.name, overlap.name)
+                    _('Practitioner %(name)s already has an appointment in this time slot (%(other)s).')
+                    % {'name': rec.practitioner_id.name, 'other': overlap.name}
                 )
 
     @api.model_create_multi
@@ -105,7 +107,8 @@ class DentalAppointment(models.Model):
         self.state = 'draft'
 
     def action_send_reminder(self):
-        template = self.env.ref('dental_clinic.mail_template_dental_appointment_reminder', raise_if_not_found=False)
+        template = self.env.ref('dental_clinic.mail_template_dental_appointment_reminder',
+                                raise_if_not_found=False)
         for rec in self:
             if template and rec.patient_id.email:
                 template.send_mail(rec.id, force_send=False)
