@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <menuitem id="menu_dental_root"
+              name="Dental Clinic"
+              web_icon="dental_clinic,static/description/icon.png"
+              sequence="50"
+              groups="group_dental_receptionist,group_dental_user,group_dental_manager"/>
+
+    <menuitem id="menu_dental_dashboard" name="Dashboard"
+              parent="menu_dental_root" sequence="1"
+              action="action_dental_appointment_calendar"/>
+
+    <menuitem id="menu_dental_patients_top" name="Patients"
+              parent="menu_dental_root" sequence="10"/>
+    <menuitem id="menu_dental_patients" name="Patients"
+              parent="menu_dental_patients_top" sequence="1"
+              action="action_dental_patient"/>
+    <menuitem id="menu_dental_odontogram" name="Odontogram"
+              parent="menu_dental_patients_top" sequence="5"
+              action="action_dental_tooth"/>
+
+    <menuitem id="menu_dental_appointments_top" name="Appointments"
+              parent="menu_dental_root" sequence="20"/>
+    <menuitem id="menu_dental_appointments_calendar" name="Calendar"
+              parent="menu_dental_appointments_top" sequence="1"
+              action="action_dental_appointment_calendar"/>
+    <menuitem id="menu_dental_appointments_list" name="All Appointments"
+              parent="menu_dental_appointments_top" sequence="5"
+              action="action_dental_appointment"/>
+
+    <menuitem id="menu_dental_treatments_top" name="Treatments"
+              parent="menu_dental_root" sequence="30"/>
+    <menuitem id="menu_dental_plans" name="Treatment Plans"
+              parent="menu_dental_treatments_top" sequence="1"
+              action="action_dental_treatment_plan"/>
+    <menuitem id="menu_dental_prescriptions" name="Prescriptions"
+              parent="menu_dental_treatments_top" sequence="5"
+              action="action_dental_prescription"/>
+
+    <menuitem id="menu_dental_billing_top" name="Billing"
+              parent="menu_dental_root" sequence="40"/>
+    <menuitem id="menu_dental_invoices" name="Invoices"
+              parent="menu_dental_billing_top" sequence="1"
+              action="action_dental_invoices"/>
+
+    <menuitem id="menu_dental_config" name="Configuration"
+              parent="menu_dental_root" sequence="90"
+              groups="group_dental_manager"/>
+    <menuitem id="menu_dental_config_treatments" name="Treatment Catalog"
+              parent="menu_dental_config" sequence="1"
+              action="action_dental_treatment"/>
+    <menuitem id="menu_dental_config_practitioners" name="Practitioners"
+              parent="menu_dental_config" sequence="5"
+              action="action_dental_practitioner"/>
+    <menuitem id="menu_dental_config_rooms" name="Rooms / Chairs"
+              parent="menu_dental_config" sequence="10"
+              action="action_dental_room"/>
+
+    <record id="action_dental_invoices" model="ir.actions.act_window">
+        <field name="name">Patient Invoices</field>
+        <field name="res_model">account.move</field>
+        <field name="view_mode">tree,kanban,form</field>
+        <field name="domain">[('move_type','=','out_invoice'),('dental_patient_id','!=',False)]</field>
+        <field name="context">{'default_move_type':'out_invoice'}</field>
+    </record>
+</odoo>
