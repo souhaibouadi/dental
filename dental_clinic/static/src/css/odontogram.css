@@ -1,0 +1,25 @@
+/* Dental Clinic - Odontogram and UI tweaks */
+.o_dental_tooth_healthy { color: #28a745; }
+.o_dental_tooth_caries { color: #ffc107; }
+.o_dental_tooth_extracted { color: #dc3545; }
+.o_dental_tooth_missing { color: #6c757d; }
+
+.o_dental_chart {
+    display: grid;
+    grid-template-columns: repeat(16, 1fr);
+    gap: 4px;
+    margin: 10px 0;
+}
+.o_dental_chart .o_tooth {
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    padding: 4px;
+    text-align: center;
+    font-size: 11px;
+    cursor: pointer;
+    background: #fff;
+}
+.o_dental_chart .o_tooth.healthy   { background: #e7f8ec; }
+.o_dental_chart .o_tooth.caries    { background: #fff5d6; }
+.o_dental_chart .o_tooth.extracted { background: #fdecea; opacity: 0.6; }
+.o_dental_chart .o_tooth.missing   { background: #ececec; opacity: 0.4; }
