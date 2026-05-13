@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+        <!-- Sample treatments catalog -->
+        <record id="treatment_consultation" model="dental.treatment">
+            <field name="name">Initial Consultation</field>
+            <field name="code">CONS</field>
+            <field name="category">diagnostic</field>
+            <field name="duration">0.5</field>
+            <field name="price">50.0</field>
+            <field name="requires_tooth">False</field>
+        </record>
+        <record id="treatment_cleaning" model="dental.treatment">
+            <field name="name">Scaling &amp; Polishing</field>
+            <field name="code">CLEAN</field>
+            <field name="category">preventive</field>
+            <field name="duration">0.75</field>
+            <field name="price">80.0</field>
+            <field name="requires_tooth">False</field>
+        </record>
+        <record id="treatment_filling" model="dental.treatment">
+            <field name="name">Composite Filling</field>
+            <field name="code">FILL</field>
+            <field name="category">restorative</field>
+            <field name="duration">1.0</field>
+            <field name="price">120.0</field>
+        </record>
+        <record id="treatment_root_canal" model="dental.treatment">
+            <field name="name">Root Canal Treatment</field>
+            <field name="code">RCT</field>
+            <field name="category">endodontic</field>
+            <field name="duration">2.0</field>
+            <field name="price">350.0</field>
+        </record>
+        <record id="treatment_extraction" model="dental.treatment">
+            <field name="name">Tooth Extraction</field>
+            <field name="code">EXTR</field>
+            <field name="category">surgical</field>
+            <field name="duration">1.0</field>
+            <field name="price">150.0</field>
+        </record>
+        <record id="treatment_crown" model="dental.treatment">
+            <field name="name">Dental Crown</field>
+            <field name="code">CROWN</field>
+            <field name="category">prosthetic</field>
+            <field name="duration">1.5</field>
+            <field name="price">600.0</field>
+        </record>
+        <record id="treatment_whitening" model="dental.treatment">
+            <field name="name">Teeth Whitening</field>
+            <field name="code">WHITE</field>
+            <field name="category">cosmetic</field>
+            <field name="duration">1.0</field>
+            <field name="price">250.0</field>
+            <field name="requires_tooth">False</field>
+        </record>
+        <record id="treatment_implant" model="dental.treatment">
+            <field name="name">Dental Implant</field>
+            <field name="code">IMP</field>
+            <field name="category">surgical</field>
+            <field name="duration">2.0</field>
+            <field name="price">1500.0</field>
+        </record>
+
+        <!-- Default rooms -->
+        <record id="room_1" model="dental.room">
+            <field name="name">Room 1</field>
+            <field name="code">R1</field>
+            <field name="equipment">Standard dental chair, X-Ray, suction.</field>
+        </record>
+        <record id="room_2" model="dental.room">
+            <field name="name">Room 2</field>
+            <field name="code">R2</field>
+            <field name="equipment">Surgical chair, sterilization.</field>
+        </record>
+    </data>
+</odoo>
