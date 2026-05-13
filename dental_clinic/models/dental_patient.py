@@ -14,7 +14,7 @@ class DentalPatient(models.Model):
     # Link to res.partner so the patient can be a customer for invoicing
     partner_id = fields.Many2one(
         'res.partner', string='Related Contact', required=True, ondelete='restrict',
-        domain=[('is_dental_patient', '=', True)], tracking=True,
+        tracking=True,
     )
     code = fields.Char(string='Patient Code', readonly=True, copy=False, default=lambda s: _('New'))
     name = fields.Char(related='partner_id.name', store=True, readonly=False, tracking=True)
@@ -22,7 +22,6 @@ class DentalPatient(models.Model):
 
     image_1920 = fields.Image(related='partner_id.image_1920', readonly=False)
 
-    # Personal info
     gender = fields.Selection([('male', 'Male'), ('female', 'Female'), ('other', 'Other')], tracking=True)
     birth_date = fields.Date(string='Date of Birth', tracking=True)
     age = fields.Integer(string='Age', compute='_compute_age', store=False)
@@ -39,7 +38,6 @@ class DentalPatient(models.Model):
     ])
     occupation = fields.Char()
 
-    # Contact (via partner)
     phone = fields.Char(related='partner_id.phone', readonly=False)
     mobile = fields.Char(related='partner_id.mobile', readonly=False)
     email = fields.Char(related='partner_id.email', readonly=False)
@@ -48,12 +46,10 @@ class DentalPatient(models.Model):
     zip = fields.Char(related='partner_id.zip', readonly=False)
     country_id = fields.Many2one(related='partner_id.country_id', readonly=False)
 
-    # Emergency contact
     emergency_name = fields.Char()
     emergency_phone = fields.Char()
     emergency_relation = fields.Char()
 
-    # Medical
     medical_history_ids = fields.One2many('dental.medical.history', 'patient_id', string='Medical History')
     allergies = fields.Text(help='Known allergies (penicillin, latex, anesthetics, etc.)')
     current_medications = fields.Text(help='Current daily medications.')
@@ -62,13 +58,11 @@ class DentalPatient(models.Model):
     pregnant = fields.Boolean()
     notes = fields.Html(string='Internal Notes')
 
-    # Relations
     appointment_ids = fields.One2many('dental.appointment', 'patient_id', string='Appointments')
     treatment_plan_ids = fields.One2many('dental.treatment.plan', 'patient_id', string='Treatment Plans')
     prescription_ids = fields.One2many('dental.prescription', 'patient_id', string='Prescriptions')
     tooth_ids = fields.One2many('dental.tooth', 'patient_id', string='Odontogram')
 
-    # KPIs
     appointment_count = fields.Integer(compute='_compute_counts')
     treatment_plan_count = fields.Integer(compute='_compute_counts')
     prescription_count = fields.Integer(compute='_compute_counts')
@@ -118,14 +112,12 @@ class DentalPatient(models.Model):
             if vals.get('partner_id'):
                 self.env['res.partner'].browse(vals['partner_id']).is_dental_patient = True
         records = super().create(vals_list)
-        # Auto-create the 32 teeth odontogram
         for rec in records:
             rec._create_odontogram()
         return records
 
     def _create_odontogram(self):
         Tooth = self.env['dental.tooth']
-        # FDI / Universal numbering (1-32 adult teeth, simplified)
         teeth = [
             (11, 'Upper Right Central Incisor'), (12, 'Upper Right Lateral Incisor'),
             (13, 'Upper Right Canine'), (14, 'Upper Right First Premolar'),
