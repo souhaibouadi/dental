@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_dental_tooth_tree" model="ir.ui.view">
+        <field name="name">dental.tooth.tree</field>
+        <field name="model">dental.tooth</field>
+        <field name="arch" type="xml">
+            <tree decoration-success="condition=='healthy'"
+                  decoration-warning="condition in ('caries','to_extract')"
+                  decoration-danger="condition in ('extracted','missing')">
+                <field name="patient_id"/>
+                <field name="tooth_number"/>
+                <field name="name"/>
+                <field name="quadrant"/>
+                <field name="condition"/>
+                <field name="last_treatment_date"/>
+            </tree>
+        </field>
+    </record>
+    <record id="view_dental_tooth_form" model="ir.ui.view">
+        <field name="name">dental.tooth.form</field>
+        <field name="model">dental.tooth</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="patient_id"/>
+                            <field name="tooth_number"/>
+                            <field name="name"/>
+                            <field name="quadrant"/>
+                        </group>
+                        <group>
+                            <field name="condition"/>
+                            <field name="surface"/>
+                            <field name="last_treatment_date"/>
+                        </group>
+                    </group>
+                    <field name="notes"/>
+                </sheet>
+            </form>
+        </field>
+    </record>
+    <record id="action_dental_tooth" model="ir.actions.act_window">
+        <field name="name">Odontogram Entries</field>
+        <field name="res_model">dental.tooth</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+</odoo>
