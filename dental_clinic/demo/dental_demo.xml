@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="0">
+        <!-- Practitioners -->
+        <record id="demo_practitioner_1" model="dental.practitioner">
+            <field name="name">Sarah Bennett</field>
+            <field name="speciality">general</field>
+            <field name="license_number">DDS-2025-001</field>
+            <field name="phone">+1-555-0100</field>
+            <field name="email">sarah.bennett@example.com</field>
+            <field name="color">2</field>
+        </record>
+        <record id="demo_practitioner_2" model="dental.practitioner">
+            <field name="name">Karim Haddad</field>
+            <field name="speciality">orthodontics</field>
+            <field name="license_number">DDS-2025-002</field>
+            <field name="phone">+1-555-0101</field>
+            <field name="email">karim.haddad@example.com</field>
+            <field name="color">5</field>
+        </record>
+        <record id="demo_practitioner_3" model="dental.practitioner">
+            <field name="name">Emma Sun</field>
+            <field name="speciality">surgery</field>
+            <field name="license_number">DDS-2025-003</field>
+            <field name="phone">+1-555-0102</field>
+            <field name="email">emma.sun@example.com</field>
+            <field name="color">8</field>
+        </record>
+
+        <!-- Patients as partners -->
+        <record id="demo_partner_1" model="res.partner">
+            <field name="name">John Doe</field>
+            <field name="phone">+1-555-1000</field>
+            <field name="mobile">+1-555-1001</field>
+            <field name="email">john.doe@example.com</field>
+            <field name="street">123 Elm Street</field>
+            <field name="city">Springfield</field>
+            <field name="is_dental_patient" eval="True"/>
+        </record>
+        <record id="demo_partner_2" model="res.partner">
+            <field name="name">Maria Garcia</field>
+            <field name="phone">+1-555-2000</field>
+            <field name="email">maria.garcia@example.com</field>
+            <field name="street">42 Oak Ave</field>
+            <field name="city">Springfield</field>
+            <field name="is_dental_patient" eval="True"/>
+        </record>
+        <record id="demo_partner_3" model="res.partner">
+            <field name="name">Ali Khan</field>
+            <field name="phone">+1-555-3000</field>
+            <field name="email">ali.khan@example.com</field>
+            <field name="is_dental_patient" eval="True"/>
+        </record>
+
+        <record id="demo_patient_1" model="dental.patient">
+            <field name="partner_id" ref="demo_partner_1"/>
+            <field name="gender">male</field>
+            <field name="birth_date">1985-04-12</field>
+            <field name="blood_type">o_pos</field>
+            <field name="allergies">Penicillin</field>
+            <field name="emergency_name">Jane Doe</field>
+            <field name="emergency_phone">+1-555-1002</field>
+            <field name="emergency_relation">Spouse</field>
+        </record>
+        <record id="demo_patient_2" model="dental.patient">
+            <field name="partner_id" ref="demo_partner_2"/>
+            <field name="gender">female</field>
+            <field name="birth_date">1992-09-23</field>
+            <field name="blood_type">a_pos</field>
+        </record>
+        <record id="demo_patient_3" model="dental.patient">
+            <field name="partner_id" ref="demo_partner_3"/>
+            <field name="gender">male</field>
+            <field name="birth_date">1978-01-30</field>
+            <field name="smoker" eval="True"/>
+        </record>
+
+        <!-- Appointments -->
+        <record id="demo_appointment_1" model="dental.appointment">
+            <field name="patient_id" ref="demo_patient_1"/>
+            <field name="practitioner_id" ref="demo_practitioner_1"/>
+            <field name="room_id" ref="room_1"/>
+            <field name="start" eval="(DateTime.now() + relativedelta(days=1, hour=10, minute=0, second=0)).strftime('%Y-%m-%d %H:%M:%S')"/>
+            <field name="stop" eval="(DateTime.now() + relativedelta(days=1, hour=11, minute=0, second=0)).strftime('%Y-%m-%d %H:%M:%S')"/>
+            <field name="reason">Initial check-up</field>
+            <field name="state">confirmed</field>
+            <field name="treatment_ids" eval="[(4, ref('treatment_consultation')), (4, ref('treatment_cleaning'))]"/>
+        </record>
+        <record id="demo_appointment_2" model="dental.appointment">
+            <field name="patient_id" ref="demo_patient_2"/>
+            <field name="practitioner_id" ref="demo_practitioner_2"/>
+            <field name="room_id" ref="room_2"/>
+            <field name="start" eval="(DateTime.now() + relativedelta(days=2, hour=14, minute=0, second=0)).strftime('%Y-%m-%d %H:%M:%S')"/>
+            <field name="stop" eval="(DateTime.now() + relativedelta(days=2, hour=15, minute=30, second=0)).strftime('%Y-%m-%d %H:%M:%S')"/>
+            <field name="reason">Orthodontic consultation</field>
+            <field name="state">confirmed</field>
+        </record>
+    </data>
+</odoo>
