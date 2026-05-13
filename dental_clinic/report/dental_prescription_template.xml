@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <template id="report_dental_prescription">
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="o">
+                <t t-call="web.external_layout">
+                    <div class="page">
+                        <h2>Prescription <span t-field="o.name"/></h2>
+                        <div class="row mt32">
+                            <div class="col-6">
+                                <strong>Patient:</strong>
+                                <p t-field="o.patient_id.name"/>
+                                <p>Code: <span t-field="o.patient_id.code"/></p>
+                                <p>DOB: <span t-field="o.patient_id.birth_date"/></p>
+                            </div>
+                            <div class="col-6">
+                                <strong>Practitioner:</strong>
+                                <p>Dr. <span t-field="o.practitioner_id.name"/></p>
+                                <p>License: <span t-field="o.practitioner_id.license_number"/></p>
+                                <p>Date: <span t-field="o.date"/></p>
+                            </div>
+                        </div>
+                        <div class="mt16" t-if="o.diagnosis">
+                            <strong>Diagnosis:</strong>
+                            <p t-field="o.diagnosis"/>
+                        </div>
+                        <h3 class="mt16">Rx</h3>
+                        <table class="table table-sm">
+                            <thead>
+                                <tr>
+                                    <th>Medicine</th><th>Dosage</th><th>Frequency</th>
+                                    <th>Duration</th><th>Qty</th><th>Instructions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr t-foreach="o.line_ids" t-as="l">
+                                    <td><span t-field="l.name"/></td>
+                                    <td><span t-field="l.dosage"/></td>
+                                    <td><span t-field="l.frequency"/></td>
+                                    <td><span t-field="l.duration"/></td>
+                                    <td><span t-field="l.quantity"/></td>
+                                    <td><span t-field="l.instructions"/></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <div class="mt16" t-if="o.advice">
+                            <strong>Advice:</strong>
+                            <div t-field="o.advice"/>
+                        </div>
+                        <div class="row mt32">
+                            <div class="col-6 offset-6 text-center">
+                                <p>____________________________</p>
+                                <p>Dr. <span t-field="o.practitioner_id.name"/></p>
+                            </div>
+                        </div>
+                    </div>
+                </t>
+            </t>
+        </t>
+    </template>
+</odoo>
